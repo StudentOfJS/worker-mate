@@ -1,12 +1,12 @@
 {
-  "name": "worker-friend",
+  "name": "@worker-mate/hardwork",
   "author": "Rod Lewis",
   "description": "Easily execute functions in web workers",
   "version": "0.0.1",
   "license": "BSD-2-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/StudentOfJS/worker-friend.git"
+    "url": "https://github.com/StudentOfJS/worker-mate.git"
   },
   "keywords": [
     "typescript",

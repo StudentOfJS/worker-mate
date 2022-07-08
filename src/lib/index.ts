@@ -8,7 +8,7 @@ export interface WorkerResponseType {
   };
 }
 
-export async function useWorker(fn: Function, rawData: any) {
+export async function doHardwork(fn: Function, rawData: any) {
   return new Promise((resolve, reject) => {
     let worker = workerFactory.next().value;
     worker?.addEventListener(
@@ -27,3 +27,5 @@ export async function useWorker(fn: Function, rawData: any) {
     worker?.postMessage({ fn: serializeFunction(fn), rawData });
   });
 }
+
+export default doHardwork;
