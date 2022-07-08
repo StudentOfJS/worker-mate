@@ -1,0 +1,42 @@
+{
+  "name": "worker-friend",
+  "author": "Rod Lewis",
+  "description": "Easily execute functions in web workers",
+  "version": "0.0.1",
+  "license": "BSD-2-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StudentOfJS/worker-friend.git"
+  },
+  "keywords": [
+    "typescript",
+    "web-worker",
+    "worker"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "prepack": "json -f package.json -I -e \"delete this.devDependencies;\"",
+    "test": "vitest --config ./vitest.config.ts",
+    "coverage": "vitest run --coverage"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/workerFriend.umd.js",
+  "module": "./dist/workerFriend.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/workerFriend.es.js",
+      "require": "./dist/workerFriend.umd.js"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.13",
+    "vite-plugin-dts": "^1.2.0"
+  }
+}
