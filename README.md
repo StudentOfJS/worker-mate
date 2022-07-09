@@ -1,4 +1,5 @@
 <div align="center"><h1>Worker Mate</h1></div>
+[![Open Bundle](https://bundlejs.com/badge-light.svg)](https://bundlejs.com/)
 
 ###  install
 
