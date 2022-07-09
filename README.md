@@ -32,28 +32,8 @@ Perform a long runnning or expensive task in a worker with a simple promise inte
 
 >  **Tip:** Each **doHardwork()** opens in a new web worker
 
- 
+<iframe src="https://stackblitz.com/edit/react-ts-7znkk7?embed=1&file=App.tsx"></iframe>
 
-       const convertToMoney = (num: number): string => {
-	      let round = Math.round(num * 100) / 100
-	      let minus = num < 0
-	      let moneyArray = round.toString().split('.')
-	      let d = minus ? moneyArray[0].slice(1) : moneyArray[0]
-	      let dollars = d
-	        .split('')
-	        .reverse()
-	        .map((str, i) => (i !== 0 && i % 3 === 0 ? str + ',' : str))
-	        .reverse()
-	        .join('')
-	      return `${minus ? '-' : ''}$${dollars}.${
-	        moneyArray[1]
-	          ? moneyArray[1].length === 2
-	            ? moneyArray[1]
-	            : String(moneyArray[1]) + '0'
-	          : '00'
-	      }`
-    }
-    let moneyString = doHardwork(convertToMoney, 231.2).then(s => s)
 
 ### doHardwork function arguments
 doHardwork requires two arguments. The first should be a pure function, that takes the second, your unprocessed data does some expensive computation and returns the result. Both arguments are required. Side effects are not recommended.
