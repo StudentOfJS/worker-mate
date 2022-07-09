@@ -11,9 +11,9 @@ export default defineConfig({
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/lib/index.ts'),
-            name: 'doHardwork',
+            name: 'workerMate',
             formats: ['es', 'umd'],
-            fileName: (format) => `workerMateDoHardwork.${format}.js`,
+            fileName: (format) => `workerMate.${format}.js`,
         },
     },
 });
