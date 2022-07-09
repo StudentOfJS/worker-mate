@@ -32,7 +32,6 @@ Perform a long runnning or expensive task in a worker with a simple promise inte
 
 >  **Tip:** Each **doHardwork()** opens in a new web worker
 
-<iframe src="https://stackblitz.com/edit/react-ts-7znkk7?embed=1&file=App.tsx"></iframe>
 
 
 ### doHardwork function arguments
