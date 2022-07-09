@@ -1,5 +1,5 @@
 {
-  "name": "@worker-mate/hardwork",
+  "name": "worker-mate",
   "author": "Rod Lewis",
   "description": "Easily execute functions in web workers",
   "version": "0.0.1",
