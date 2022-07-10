@@ -1,31 +1,19 @@
 import { serializeFunction } from './utils';
-import { workerFactory } from './workerFactory';
+import DoWork from './worker/worker.ts?worker&inline';
 
-export interface WorkerResponseType {
-  data: {
-    type: 'error' | 'data';
-    data: unknown | Error;
-  };
-}
+import type { WorkerResponseType } from './types';
 
-export async function doHardwork(fn: Function, rawData: any) {
+export function doHardwork(fn: Function, rawData: any) {
   return new Promise((resolve, reject) => {
-    let worker = workerFactory.next().value;
-    worker?.addEventListener(
-      'message',
-      ({ data: { type, data } }: WorkerResponseType) => {
-        if (type === 'data') {
-          resolve(data);
-          worker?.terminate();
+    let worker = new DoWork();
+    if (worker) {
+      worker.onmessage = (e: WorkerResponseType) => {
+        if(e.isTrusted) {
+          e.data?.type === 'error' ? reject(e.data.data) : resolve(e.data.data);
         }
-        if (type === 'error') {
-          reject(data);
-          worker?.terminate();
-        }
+        worker?.terminate();
       }
-    );
+    }
     worker?.postMessage({ fn: serializeFunction(fn), rawData });
   });
 }
-
-export default doHardwork;
