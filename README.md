@@ -49,6 +49,6 @@ Worker mate is just Typescript with no dependencies. It makes offloading expensi
 
 
 ###  Advice
-Recustion and memoization can still be used to great effect in this web worker, but you will need to pass a named function otherwise the function reference is lost.
+Recursion and memoization can still be used to great effect in this web worker, but you will need to pass a named function otherwise the function reference is lost.
 Web workers have overhead in postMessage. This means web workers are not ideal for time critical operations like animations unless the data is kept below 10KB per request/ response. 
 To keep within a 100ms response time budget it's advised to keep data below 100KB. Surma covered this in this excellent blog post  [Is postMessage slow?](https://surma.dev/things/is-postmessage-slow/index.html)
