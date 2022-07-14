@@ -1,1 +1,1 @@
-export {doHardwork} from "./doHardwork";
+export { doHardwork } from "./doHardwork";

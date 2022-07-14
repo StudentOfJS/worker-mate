@@ -13,6 +13,7 @@ export function doHardwork(fn: Function, rawData: any) {
         }
         worker?.terminate();
       }
+      worker.onerror = worker.onmessageerror = reject;
     }
     worker?.postMessage({ fn: serializeFunction(fn), rawData });
   });
