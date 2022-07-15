@@ -31,7 +31,7 @@ Perform a long runnning or expensive task in a worker with a simple promise inte
 
     const contrivedFn = (arrayOfNumbers) => arrayOfNumbers.map(n => n ** n).filter(n => n > 9999).sort()[0]
     const contrivedArray = [420, 10, 225, 50,100,1000]
-    let largestSquare = doHardwork(contrivedFn, contrivedArray).then(n => n)
+    let largestSquare = await doHardwork(contrivedFn, contrivedArray).then(n => n)
 
 >  **Tip:** Each **doHardwork()** opens in a new web worker
 
