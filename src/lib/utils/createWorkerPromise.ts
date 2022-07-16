@@ -1,7 +1,7 @@
 import type { WorkerResponseType } from "../types";
 
-export const createWorkerPromise = <T>(Worker: new () => Worker, postMessage: Record<string, any>): Promise<T> => {
-    return new Promise((resolve, reject) => {
+export const createWorkerPromise = <T>(Worker: new () => Worker, postMessage: Record<string, any>) =>
+    () =>  new Promise((resolve, reject) => {
       let worker = new Worker();
       if (worker) {
         worker.onmessage = (e: WorkerResponseType<T>) => {
@@ -14,4 +14,3 @@ export const createWorkerPromise = <T>(Worker: new () => Worker, postMessage: Re
       }
       worker?.postMessage(postMessage);
     });
-  }
