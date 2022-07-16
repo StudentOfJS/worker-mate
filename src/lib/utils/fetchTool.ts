@@ -1,6 +1,6 @@
 import { serializeFunction } from '.';
 import { createWorkerPromise } from './createWorkerPromise';
-import FetchWorker from './worker/fetch_worker.ts?worker&inline';
+import FetchWorker from '../worker/fetch_worker.ts?worker&inline';
 
 export interface FetchToolProps {
     url: string;
