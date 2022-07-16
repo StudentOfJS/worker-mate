@@ -1,7 +1,7 @@
-export interface WorkerResponseType {
+export interface WorkerResponseType<T> {
     isTrusted: boolean;
     data: {
         type: 'error' | 'data';
-        data: unknown;
+        data: T;
     };
 }
