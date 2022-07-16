@@ -11,13 +11,13 @@ self.addEventListener('message', async (event) => {
   }
   try {
     let response = await fetch(url, options);
-    if(response.ok && response.status !== 400 && response.status !== 403) {
+    if(response.ok && response.status !== 404 && response.status !== 403) {
       let responseData = await response.json();
       let responseMiddleware = data?.responseMiddleware && deserializeFunction(data.responseMiddleware);
       let responseMiddlewareData = isFunction(responseMiddleware) ? responseMiddleware(responseData) : responseData;
       self.postMessage({ type: 'data', data: responseMiddlewareData });
     } else {
-      self.postMessage({ type: 'error', data: `Error: ${response.statusText}` });
+      self.postMessage({ type: 'error', data: `Error: ${response.status}` });
     }
   } catch (error) {
     self.postMessage({ type: 'error', data: (error as Error)?.message ?? error });
