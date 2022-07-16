@@ -21,7 +21,7 @@ or
 
 ###  import
 
-    import { doHardwork } from "worker-mate"
+    import { doHardwork, fetchTool, createWorkerPromise } from "worker-mate"
 
 
 ##  doHardwork
@@ -42,7 +42,10 @@ doHardwork requires two arguments. The first should be a pure function, that tak
  - fn - required
  - rawData-  required
 
-
+## fetchTool
+examples in the pipleine
+## createWorkerPromise
+examples are being considered
 ##  Why Worker Mate?
 
 Worker mate is just Typescript with no dependencies. It makes offloading expensive computations to web workers simple . This allows you to keep the main thread clear and your site responsive. It's a super simple, easy to use function that returns a promise. Each instantiation creates a new web worker thread, which terminates itself once the request is complete.
