@@ -10,7 +10,7 @@ export interface FetchToolProps {
     responseMiddleware?: Function;
 }
 
-export function fetchTool<T>({ url, body, requestMiddleware, responseMiddleware, options }: FetchToolProps) {
+export const  fetchTool = <T>({ url, body, requestMiddleware, responseMiddleware, options }: FetchToolProps) => {
     return createWorkerPromise<T>(FetchWorker, {
         url,
         body,
