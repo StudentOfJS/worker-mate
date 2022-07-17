@@ -6,7 +6,7 @@ export const createWorkerPromise = <T>(Worker: new () => Worker, postMessage: Re
       if (worker) {
         worker.onmessage = (e: WorkerResponseType<T>) => {
           if(e.isTrusted) {
-            e.data?.type === 'error' ? reject(e.data.data) : resolve(e.data.data);
+            e.data?.type === 'error' ? reject(e.data.error) : resolve(e.data?.data as T);
           }
           worker?.terminate();
         }

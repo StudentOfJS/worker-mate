@@ -1,3 +1,2 @@
-export { doHardwork } from "./utils/doHardwork";
-export { fetchTool } from "./utils/fetchTool";
-export { createWorkerPromise } from "./utils/createWorkerPromise";
+export { fnWorker } from './fnWorker';
+export { fetchWorker } from './fetchWorker';

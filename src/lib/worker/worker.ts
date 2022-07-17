@@ -7,10 +7,10 @@ self.addEventListener('message', async (event) => {
   if (!isFunction(fn)) {
     self.postMessage({
       type: 'error',
-      data: 'no function provided',
+      error: 'no function provided',
     });
   } else if (!data?.rawData) {
-    self.postMessage({ type: 'error', data: 'no data provided' });
+    self.postMessage({ type: 'error', error: 'no data provided' });
   } else {
     self.postMessage({ type: 'data', data: fn(data.rawData) });
   }

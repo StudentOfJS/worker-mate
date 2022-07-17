@@ -21,63 +21,72 @@ or
 
 ###  import
 
-    import { doHardwork, fetchTool, createWorkerPromise } from "worker-mate"
+    import { fnWorker, fetchWorker } from "worker-mate"
 
 
-##  doHardwork
+##  fnWorker
 Perform a long runnning or expensive task in a worker with a simple promise interface.
 
 ### example
 
     const contrivedFn = (arrayOfNumbers) => arrayOfNumbers.map(n => n ** n).filter(n => n > 9999).sort()[0]
     const contrivedArray = [420, 10, 225, 50,100,1000]
-    let largestSquare = await doHardwork(contrivedFn, contrivedArray).then(n => n)
+    let largestSquare = await fnWorker(contrivedFn, contrivedArray).then(n => n)
 
->  **Tip:** Each **doHardwork()** opens in a new web worker
+>  **Tip:** Each **fnWorker()** opens in a new web worker
 
 
 
-### doHardwork function arguments
-doHardwork requires two arguments. The first should be a pure function, that takes the second, your unprocessed data does some expensive computation and returns the result. Both arguments are required. Side effects are not recommended.
+### props
+fnWorker requires two arguments. The first should be a pure function, that takes the second, your unprocessed data does some expensive computation and returns the result. Both arguments are required. Side effects are not recommended.
  - fn - required
  - rawData-  required
 
-## fetchTool
+## fetchWorker
 Fetch with middleware in a worker. Offload expensive data transformations onto their own thread. Need to mutate the body of a request? No dramas, we've got you covered.
 ### example
-     fetchTool<Record<string, any>>({ url: 'https://swapi.dev/api/starships/9', responseMiddleware: (d) =>  ({
-          name: d?.name ?? '',
-          model: d?.model ?? '',
-          manufacturer: d?.manufacturer ?? '',
-        })})
-          .then((d: { name: string; model: string; manufacturer: string }) => { setStar(d) })
-          .catch((err) => console.log(err));
-      }, []);
-## createWorkerPromise
-This is the function we created to create fetchTool and doHardwork. If we aren't covering your use case, create your own.
-### example
-    import { serializeFunction } from '.';
-    import { createWorkerPromise } from './createWorkerPromise';
-    import FetchWorker from '../worker/fetch_worker.ts?worker&inline';
-    
-    export interface FetchToolProps {
+    fetchWorker<Record<string, any>>({ 
+        url: 'https://swapi.dev/api/starships/9',
+        responseMiddleware: (d) =>  ({
+            name: d?.name ?? '',
+            model: d?.model ?? '',
+            manufacturer: d?.manufacturer ?? ''
+        }),
+        retry: {
+            attempts: 2,
+            delay: 1000
+        }
+    })
+        .then((d: { name: string; model: string; manufacturer: string }) => { setStar(d) })
+        .catch((err) => console.log(err));
+
+### props
+    - fetchProps: FetchToolProps
+
+    interface FetchToolProps {
         url: string;
-        body?: any;
         options?: RequestInit;
         requestMiddleware?: Function;
         responseMiddleware?: Function;
+        retry?: {
+            attempts: number;
+            delay: number;
+        };
     }
-    
-    export const  fetchTool = <T>({ url, body, requestMiddleware, responseMiddleware, options }: FetchToolProps) => {
-        return createWorkerPromise<T>(FetchWorker, {
-            url,
-            body,
-            options,
-            requestMiddleware: requestMiddleware && serializeFunction(requestMiddleware), 
-            responseMiddleware: responseMiddleware && serializeFunction(responseMiddleware)
-        })
-    }
-    
+#### url and options
+url is the same as the first option in the fetch api and options is exactly the same as the second option. Please refer to [fetch API MDN](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for details. url is equivalant to resource and options is options.
+
+#### requestMiddleware
+requestMiddleware is an optional function you can provide to process data before you send a POST or PUT request. Add your unprocessed data to the body of options using JSON.stringify and your function will be executed on the data in the web worker.
+
+#### responseMiddleware
+responseMiddleware is an optional function you can provide to process data from a response. This will run in the web worker.
+
+#### retry
+retry is an object with two entries := attempts is the amount of times you want to attempt a request and delay is the time you want to wait between attempts.
+
+
+
 ##  Why Worker Mate?
 
 Worker mate is just Typescript with no dependencies. It makes offloading expensive computations to web workers simple . This allows you to keep the main thread clear and your site responsive. It's a super simple, easy to use function that returns a promise. Each instantiation creates a new web worker thread, which terminates itself once the request is complete.
