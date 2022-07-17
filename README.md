@@ -27,7 +27,7 @@ or
 ##  doHardwork
 Perform a long runnning or expensive task in a worker with a simple promise interface.
 
-### examples
+### example
 
     const contrivedFn = (arrayOfNumbers) => arrayOfNumbers.map(n => n ** n).filter(n => n > 9999).sort()[0]
     const contrivedArray = [420, 10, 225, 50,100,1000]
@@ -43,9 +43,41 @@ doHardwork requires two arguments. The first should be a pure function, that tak
  - rawData-  required
 
 ## fetchTool
-examples in the pipleine
+Fetch with middleware in a worker. Offload expensive data transformations onto their own thread. Need to mutate the body of a request? No dramas, we've got you covered.
+### example
+     fetchTool<Record<string, any>>({ url: 'https://swapi.dev/api/starships/9', responseMiddleware: (d) =>  ({
+          name: d?.name ?? '',
+          model: d?.model ?? '',
+          manufacturer: d?.manufacturer ?? '',
+        })})
+          .then((d: { name: string; model: string; manufacturer: string }) => { setStar(d) })
+          .catch((err) => console.log(err));
+      }, []);
 ## createWorkerPromise
-examples are being considered
+This is the function we created to create fetchTool and doHardwork. If we aren't covering your use case, create your own.
+### example
+    import { serializeFunction } from '.';
+    import { createWorkerPromise } from './createWorkerPromise';
+    import FetchWorker from '../worker/fetch_worker.ts?worker&inline';
+    
+    export interface FetchToolProps {
+        url: string;
+        body?: any;
+        options?: RequestInit;
+        requestMiddleware?: Function;
+        responseMiddleware?: Function;
+    }
+    
+    export const  fetchTool = <T>({ url, body, requestMiddleware, responseMiddleware, options }: FetchToolProps) => {
+        return createWorkerPromise<T>(FetchWorker, {
+            url,
+            body,
+            options,
+            requestMiddleware: requestMiddleware && serializeFunction(requestMiddleware), 
+            responseMiddleware: responseMiddleware && serializeFunction(responseMiddleware)
+        })
+    }
+    
 ##  Why Worker Mate?
 
 Worker mate is just Typescript with no dependencies. It makes offloading expensive computations to web workers simple . This allows you to keep the main thread clear and your site responsive. It's a super simple, easy to use function that returns a promise. Each instantiation creates a new web worker thread, which terminates itself once the request is complete.
