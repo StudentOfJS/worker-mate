@@ -1,6 +1,11 @@
 <div align="center"><h1>Worker Mate</h1></div>
+<div align="right">
+  <img src="https://badgen.net/npm/types/worker-mate" alt="worker-mate types included" />
+</div>
+<div align="right">
+  <img src="https://badgen.net/bundlephobia/minzip/worker-mate" alt="minzipped size badge" />
+</div>
 
-# 
 [![Open Bundle](https://bundlejs.com/badge-light.svg)](https://bundlejs.com/?q=worker-mate)
 
 ###  install
