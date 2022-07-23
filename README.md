@@ -50,7 +50,12 @@ fnWorker requires two arguments. The first should be a pure function, that takes
 ## fetchWorker
 Fetch with middleware in a worker. Offload expensive data transformations onto their own thread. Need to mutate the body of a request? No dramas, we've got you covered.
 ### example
-    fetchWorker<Record<string, any>>({ 
+    interface MyResponseDataType {
+      name: string
+      model: string
+      manufacturer: string
+    }
+    fetchWorker<MyResponseDataType>({ 
         url: 'https://swapi.dev/api/starships/9',
         responseMiddleware: (d) =>  ({
             name: d?.name ?? '',
